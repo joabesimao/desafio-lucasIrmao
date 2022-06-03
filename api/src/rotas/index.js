@@ -25,10 +25,18 @@ roteador.get("/:idLivro", async (req, res) => {
 });
 
 roteador.post("/", async (req, res) => {
-  const dadosNovoLivro = req.body;
-  const livro = new Livro(dadosNovoLivro);
-  await livro.criar();
-  res.send(JSON.stringify(livro));
+  try {
+    const dadosNovoLivro = req.body;
+    const livro = new Livro(dadosNovoLivro);
+    await livro.criar();
+    res.send(JSON.stringify(livro));
+  } catch (erro) {
+    res.send(
+      JSON.stringify({
+        mensagem: erro.message,
+      })
+    );
+  }
 });
 
 roteador.put("/:idLivro", async (req, res) => {
